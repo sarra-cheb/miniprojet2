@@ -23,5 +23,7 @@ app.use('/api', require('./Routes/AuthApi'))
 app.use('/api', require('./Routes/EtudiantApi'))
 app.use('/api', require('./Routes/LivreApi'))
 
+app.use('/api', require('./Routes/VerifyApi'))
+
 app.listen(4000, console.log('App running on port ')
 )

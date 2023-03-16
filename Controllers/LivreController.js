@@ -52,7 +52,7 @@ exports.affecte = async (req, res) => {
     console.log(found.Disponibilité)
     if (found.Disponibilité) {
       if (found.Nbre_de_copies > 1) {
-        await Livre.findByIdAndUpdate(req.params.idBook, { Nbre_de_copies: (found.Nbre_de_copies - 1), $push: { Etudiant: req.params.idStudent } })
+        await Livre.findByIdAndUpdate(req.params.idBook, { $inc: { Nbre_de_copies: -1 }, $push: { Etudiant: req.params.idStudent } })
         await Etudiant.findByIdAndUpdate(req.params.idStudent, { Date_de_prise_du_livre: found.updatedAt }, { new: true })
         const found2 = await Etudiant.findById(req.params.idStudent)
         console.log(found2)
@@ -76,7 +76,7 @@ exports.affecte = async (req, res) => {
 
       }
       else if (found.Nbre_de_copies == 1) {
-        await Livre.findByIdAndUpdate(req.params.idBook, { Nbre_de_copies: (found.Nbre_de_copies - 1), Disponibilité: false, $push: { Etudiant: req.params.idStudent } })
+        await Livre.findByIdAndUpdate(req.params.idBook, { $inc: { Nbre_de_copies: -1 }, Disponibilité: false, $push: { Etudiant: req.params.idStudent } })
         await Etudiant.findByIdAndUpdate(req.params.idStudent, { Date_de_prise_du_livre: found.updatedAt }, { new: true })
         const found2 = await Etudiant.findById(req.params.idStudent)
         console.log(found2)
@@ -113,7 +113,7 @@ exports.desaffecte = async (req, res) => {
     const found = await Livre.findById(req.params.idBook)
     const found2 = await Etudiant.findById(req.params.idStudent)
 
-    await Livre.findByIdAndUpdate(req.params.idBook, { Nbre_de_copies: (found.Nbre_de_copies + 1), Disponibilité: true, $pull: { Etudiant: req.params.idStudent } })
+    await Livre.findByIdAndUpdate(req.params.idBook, { $inc: { Nbre_de_copies: +1 }, Disponibilité: true, $pull: { Etudiant: req.params.idStudent } })
 
     const transporter = nodemailer.createTransport({
       service: 'gmail',

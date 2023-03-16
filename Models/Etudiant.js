@@ -18,7 +18,7 @@ const EtudiantSchema = new schema({
     required: true
   },
   Date_de_prise_du_livre: {
-    type: String
+    type: Date
   }
 }
   , {
